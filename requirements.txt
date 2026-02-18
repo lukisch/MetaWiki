@@ -1,0 +1,3 @@
+# MetaWiki Framework - Dependencies
+# Nur Python Standard Library erforderlich (Python 3.10+)
+# Keine externen Pakete benoetigt.
