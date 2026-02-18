@@ -1,5 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Stubs-630+-blue?style=for-the-badge" alt="Stubs">
+  <img src="https://img.shields.io/badge/Sprachen-DE_%7C_EN-orange?style=for-the-badge" alt="Sprachen">
   <img src="https://img.shields.io/badge/Format-JSON-green?style=for-the-badge" alt="Format">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" alt="Status">
   <img src="https://img.shields.io/badge/License-GPL--3.0-red?style=for-the-badge" alt="License">
@@ -15,43 +16,52 @@
 </h1>
 
 <h4 align="center">Ein universelles, modulares Wissensgeruest fuer KI-gestuetzte Wissensarbeit</h4>
+<h4 align="center">A universal, modular knowledge framework for AI-assisted knowledge work</h4>
 
 <p align="center">
-  <a href="#-vision">Vision</a> •
-  <a href="#-grundidee">Grundidee</a> •
-  <a href="#-json-struktur">JSON-Struktur</a> •
-  <a href="#-automatisierung">Automatisierung</a> •
-  <a href="#-roadmap">Roadmap</a>
+  <a href="#vision--vision">Vision</a> •
+  <a href="#grundidee--concept">Grundidee / Concept</a> •
+  <a href="#json-struktur--json-structure">JSON-Struktur</a> •
+  <a href="#automatisierung--automation">Automatisierung</a> •
+  <a href="#roadmap">Roadmap</a>
 </p>
 
 ---
 
-## Vision
+## Vision / Vision
 
-> **Ein einziges, vollstaendiges Wissensskelett - wiederverwendbar fuer jedes Projekt.**
+> **DE: Ein einziges, vollstaendiges Wissensskelett – wiederverwendbar fuer jedes Projekt.**
+>
+> **EN: A single, complete knowledge skeleton – reusable for any project.**
 
-Das MetaWiki ist ein universelles, modular aufgebautes Wissensgeruest aus ca. **2000 kompakten Wissens-Stubs**. Jeder Stub beschreibt ein Thema in 1-3 Saetzen, neutral, praezise und projektagnostisch.
+Das MetaWiki ist ein universelles, modular aufgebautes Wissensgeruest aus ca. **630+ kompakten Wissens-Stubs** in 12 Wissenschaftsbereichen. Jeder Stub beschreibt ein Thema in 1–3 Saetzen, neutral, praezise und projektagnostisch – auf **Deutsch und Englisch**.
+
+MetaWiki is a universal, modular knowledge framework of **630+ compact knowledge stubs** across 12 scientific domains. Each stub describes a topic in 1–3 sentences, neutral, precise and project-agnostic – in **German and English**.
 
 <table>
 <tr>
 <td width="50%">
 
-### Die Idee
+### Die Idee / The Idea
 
 - Ein einziges, vollstaendiges Wissensskelett
+- A single, complete knowledge skeleton
 - Wiederverwendbar fuer jedes Projekt
+- Reusable for any project
 - Erweiterbar nur dort, wo es gebraucht wird
+- Extendable only where needed
 - Automatisiert transformierbar
+- Automatically transformable
 
 </td>
 <td width="50%">
 
-### Einsatzgebiete
+### Einsatzgebiete / Use Cases
 
-- KI-gestuetzte Wissensarbeit
-- Dokumentation & Recherche
-- Ontologien & Lernsysteme
-- Softwareprojekte
+- KI-gestuetzte Wissensarbeit / AI-assisted knowledge work
+- Dokumentation & Recherche / Documentation & Research
+- Ontologien & Lernsysteme / Ontologies & Learning Systems
+- Softwareprojekte / Software Projects
 
 </td>
 </tr>
@@ -59,11 +69,11 @@ Das MetaWiki ist ein universelles, modular aufgebautes Wissensgeruest aus ca. **
 
 ---
 
-## Grundidee
+## Grundidee / Concept
 
-Alle Stubs werden in einer **einheitlichen JSON-Struktur** gespeichert.
+Alle Stubs werden in einer **einheitlichen JSON-Struktur** gespeichert. / All stubs are stored in a **unified JSON structure**.
 
-### Warum JSON?
+### Warum JSON? / Why JSON?
 
 | Eigenschaft | Vorteil |
 |-------------|---------|
@@ -98,19 +108,19 @@ Alle Stubs werden in einer **einheitlichen JSON-Struktur** gespeichert.
 
 ---
 
-## JSON-Struktur
+## JSON-Struktur / JSON Structure
 
-### Beispiel eines Stubs
+### Beispiel eines Stubs / Example Stub
 
 ```json
 {
   "MetaWiki": {
-    "Informatik & KI": {
-      "Software Engineering": [
+    "07_Informatik_KI": {
+      "Software_Engineering": [
         {
           "title": "Domain-Driven Design",
           "definition_de": "Ein Ansatz zur Modellierung komplexer Software, der die Fachdomaene in den Mittelpunkt stellt.",
-          "definition_en": "",
+          "definition_en": "An approach to modeling complex software that places the business domain at the center of development.",
           "relevance": "Hilft, komplexe Systeme verstaendlich und wartbar zu gestalten.",
           "tags": ["Informatik", "Software Engineering"]
         }
@@ -120,63 +130,46 @@ Alle Stubs werden in einer **einheitlichen JSON-Struktur** gespeichert.
 }
 ```
 
-### Felderklaerung
+### Felderklaerung / Field Description
 
-| Feld | Beschreibung |
-|------|--------------|
-| `title` | Name des Konzepts |
-| `definition_de` | Deutsche Definition (1-3 Saetze) |
-| `definition_en` | Englische Uebersetzung (auto-generiert) |
-| `relevance` | Warum ist das wichtig? |
-| `tags` | Kategorisierung fuer Suche/Filter |
+| Feld / Field | DE | EN |
+|---|---|---|
+| `title` | Name des Konzepts | Concept name |
+| `definition_de` | Deutsche Definition (1–3 Saetze) | German definition (1–3 sentences) |
+| `definition_en` | Englische Uebersetzung | English translation |
+| `relevance` | Warum ist das wichtig? | Why does it matter? |
+| `tags` | Kategorisierung fuer Suche/Filter | Categorization for search/filter |
 
 ---
 
-## Automatisierung
+## Automatisierung / Automation
 
 ### Python-Pipeline
 
-Das folgende Script zeigt den Workflow:
-
 ```python
 import json
-import os
-
-def translate(text, target_lang="en"):
-    """Platzhalter fuer API (DeepL, Claude, Gemini, Azure)"""
-    return f"TRANSLATED({text})"
 
 # JSON laden
 with open("metawiki.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-# Verarbeitung
+# Alle Stubs abrufen (bilingual)
 for category, subcats in data["MetaWiki"].items():
     for subcat, stubs in subcats.items():
         for stub in stubs:
-            # Auto-Uebersetzung
-            if not stub["definition_en"]:
-                stub["definition_en"] = translate(stub["definition_de"])
+            print(stub["title"])
+            print(stub["definition_de"])  # Deutsch
+            print(stub["definition_en"])  # English
 
-            # Ordnerstruktur
-            folder = f"output/{category}/{subcat}"
-            os.makedirs(folder, exist_ok=True)
-
-            # Markdown generieren
-            filename = f"{folder}/{stub['title'].replace(' ', '_')}.md"
-            with open(filename, "w", encoding="utf-8") as md:
-                md.write(f"# {stub['title']}\n\n")
-                md.write(f"**Definition (DE):** {stub['definition_de']}\n\n")
-                md.write(f"**Definition (EN):** {stub['definition_en']}\n\n")
-                md.write(f"**Relevanz:** {stub['relevance']}\n\n")
-                md.write(f"**Tags:** {', '.join(stub['tags'])}\n")
+# Neue Stubs nach dem Hinzufuegen uebersetzen
+# python metawiki_pipeline.py translate
 ```
 
 ---
 
 ## KI-Uebersetzung (Phase 4)
 
-Alle Stubs koennen automatisch ins Englische uebersetzt werden:
+Alle 630 Stubs sind bereits vollstaendig **zweisprachig (DE + EN)**. Fuer neue Stubs, die spaeter hinzugefuegt werden:
 
 ```bash
 # API-Key setzen und optionales Paket installieren
@@ -247,39 +240,43 @@ Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Ue
 
 ---
 
-## Ziel
+## Ziel / Goal
 
 <table>
 <tr>
 <td>
 
 ```
-   ╔══════════════════════════════════════╗
-   ║                                      ║
-   ║   Ein Wissenssystem, das du einmal   ║
-   ║   erzeugst und fuer immer            ║
-   ║   wiederverwenden kannst.            ║
-   ║                                      ║
-   ╚══════════════════════════════════════╝
+   ╔══════════════════════════════════════════════════╗
+   ║                                                  ║
+   ║   DE: Ein Wissenssystem, das du einmal           ║
+   ║       erzeugst und fuer immer wiederverwenden    ║
+   ║       kannst.                                    ║
+   ║                                                  ║
+   ║   EN: A knowledge system you build once          ║
+   ║       and reuse forever.                         ║
+   ║                                                  ║
+   ╚══════════════════════════════════════════════════╝
 ```
 
 </td>
 </tr>
 </table>
 
-### Das MetaWiki ist...
+### Das MetaWiki ist... / MetaWiki is...
 
-| Eigenschaft | Beschreibung |
-|-------------|--------------|
-| In JSON gespeichert | Maschinenlesbar & versionierbar |
-| In Markdown exportierbar | Menschenlesbar & dokumentierbar |
-| In jede Sprache uebersetzbar | Global einsetzbar |
-| Modular erweiterbar | Waechst mit deinen Anforderungen |
-| KI-freundlich | Optimiert fuer LLM-Integration |
-| Projektagnostisch | Fuer jeden Anwendungsfall |
+| Eigenschaft / Property | DE | EN |
+|---|---|---|
+| In JSON gespeichert | Maschinenlesbar & versionierbar | Machine-readable & version-controlled |
+| In Markdown exportierbar | Menschenlesbar & dokumentierbar | Human-readable & documentable |
+| Zweisprachig (DE/EN) | Vollstaendig uebersetzt | Fully translated |
+| In jede Sprache uebersetzbar | Global einsetzbar | Globally deployable |
+| Modular erweiterbar | Waechst mit deinen Anforderungen | Grows with your requirements |
+| KI-freundlich | Optimiert fuer LLM-Integration | Optimized for LLM integration |
+| Projektagnostisch | Fuer jeden Anwendungsfall | For any use case |
 
 ---
 
 <p align="center">
-  <sub>Built with brain and AI</sub>
+  <sub>Built with brain and AI &nbsp;|&nbsp; Developed by <a href="https://github.com/lukisch">lukisch</a></sub>
 </p>
