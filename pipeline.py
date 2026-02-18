@@ -1,14 +1,24 @@
 import json
 import os
 
+try:
+    from translate import translate_text as _translate_api
+    _API_AVAILABLE = True
+except ImportError:
+    _API_AVAILABLE = False
+
+
 def translate(text, target_lang="en"):
     """
-    Platzhalter fuer API (DeepL, Claude, Gemini, Azure).
-    Aktuell wird nur ein Dummy-Text zurueckgegeben, um die Funktionalitaet zu demonstrieren.
+    Uebersetzt Text via Claude API (translate.py).
+    Erfordert: pip install anthropic && ANTHROPIC_API_KEY gesetzt.
+    Gibt leeren String zurueck falls API nicht verfuegbar.
     """
     if not text:
         return ""
-    return f"[TRANSLATED] {text}"
+    if _API_AVAILABLE:
+        return _translate_api(text, target_lang)
+    return ""
 
 def main():
     print("Starte MetaWiki Pipeline...")

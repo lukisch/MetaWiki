@@ -1,3 +1,9 @@
 # MetaWiki Framework - Dependencies
-# Nur Python Standard Library erforderlich (Python 3.10+)
-# Keine externen Pakete benoetigt.
+# Kernfunktionen: Nur Python Standard Library erforderlich (Python 3.10+)
+# Keine externen Pakete fuer Import, Export, CLI, Validierung benoetigt.
+
+# --- Optionale Abhaengigkeiten ---
+
+# KI-Uebersetzung via Claude API (translate.py, metawiki_pipeline.py translate)
+# Voraussetzung: ANTHROPIC_API_KEY Umgebungsvariable setzen
+# anthropic>=0.40.0

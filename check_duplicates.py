@@ -16,6 +16,7 @@ Nutzung:
 """
 
 import json
+import shutil
 import sys
 from pathlib import Path
 from collections import defaultdict
@@ -23,6 +24,7 @@ from datetime import datetime
 
 BASE_PATH = Path(__file__).parent.resolve()
 JSON_PATH = BASE_PATH / "metawiki.json"
+BACKUP_PATH = BASE_PATH / "backups"
 
 
 def load_json():
@@ -94,6 +96,76 @@ def _similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 
+def save_json(data):
+    """Speichert metawiki.json mit Backup."""
+    if JSON_PATH.exists():
+        BACKUP_PATH.mkdir(exist_ok=True)
+        backup_name = f"metawiki_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        shutil.copy(JSON_PATH, BACKUP_PATH / backup_name)
+
+    with open(JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def fix_duplicates_interactive(data, duplicates):
+    """
+    Loest exakte Duplikate interaktiv auf.
+    Der Nutzer waehlt fuer jedes Duplikat-Set, welcher Eintrag behalten werden soll.
+    """
+    removed = 0
+
+    for title_lower, entries in sorted(duplicates.items()):
+        print(f"\n  Duplikat: '{entries[0]['title']}'")
+        for i, e in enumerate(entries):
+            print(f"    [{i + 1}] {e['category']}/{e['subcategory']}")
+            if e.get("definition_de"):
+                preview = e["definition_de"][:80]
+                if len(e["definition_de"]) > 80:
+                    preview += "..."
+                print(f"        {preview}")
+
+        print(f"    [s] Ueberspringen")
+
+        while True:
+            try:
+                choice = input(f"  Welchen Eintrag behalten? [1-{len(entries)}/s]: ").strip().lower()
+            except (EOFError, KeyboardInterrupt):
+                print("\n  Abgebrochen.")
+                return removed
+
+            if choice == "s":
+                break
+
+            try:
+                idx = int(choice) - 1
+                if 0 <= idx < len(entries):
+                    keep = entries[idx]
+                    to_remove = [e for i, e in enumerate(entries) if i != idx]
+
+                    for e in to_remove:
+                        cat = e["category"]
+                        subcat = e["subcategory"]
+                        items = data["MetaWiki"].get(cat, {}).get(subcat, [])
+                        original_len = len(items)
+                        data["MetaWiki"][cat][subcat] = [
+                            item for item in items
+                            if item.get("title", "").lower() != title_lower
+                            or (item.get("title", "").lower() == title_lower
+                                and e["category"] == keep["category"]
+                                and e["subcategory"] == keep["subcategory"])
+                        ]
+                        removed += original_len - len(data["MetaWiki"][cat][subcat])
+
+                    print(f"  Behalten: {keep['category']}/{keep['subcategory']}")
+                    break
+            except ValueError:
+                pass
+
+            print(f"  Ungueltige Eingabe. Bitte 1-{len(entries)} oder 's'.")
+
+    return removed
+
+
 def find_empty_entries(stubs):
     """Findet Stubs mit fehlenden Pflichtfeldern."""
     empty = []
@@ -115,6 +187,7 @@ def main():
     parser = argparse.ArgumentParser(description="MetaWiki: Konsistenzpruefung")
     parser.add_argument("--similar", action="store_true", help="Auch aehnliche Titel finden")
     parser.add_argument("--threshold", type=float, default=0.85, help="Aehnlichkeits-Schwellwert (0-1)")
+    parser.add_argument("--fix", action="store_true", help="Exakte Duplikate interaktiv bereinigen")
     args = parser.parse_args()
 
     print("=" * 60)
@@ -139,6 +212,17 @@ def main():
             for e in entries:
                 print(f"    -> {e['category']}/{e['subcategory']}")
             print()
+
+        if args.fix:
+            print(f"\n{'='*60}")
+            print("  INTERAKTIVE BEREINIGUNG")
+            print(f"{'='*60}")
+            removed = fix_duplicates_interactive(data, duplicates)
+            if removed > 0:
+                save_json(data)
+                print(f"\n  {removed} Duplikate entfernt und gespeichert.")
+            else:
+                print("\n  Keine Aenderungen vorgenommen.")
     else:
         print("\n  Keine exakten Duplikate gefunden.")
 

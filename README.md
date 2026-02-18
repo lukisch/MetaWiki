@@ -174,6 +174,39 @@ for category, subcats in data["MetaWiki"].items():
 
 ---
 
+## KI-Uebersetzung (Phase 4)
+
+Alle Stubs koennen automatisch ins Englische uebersetzt werden:
+
+```bash
+# API-Key setzen und optionales Paket installieren
+export ANTHROPIC_API_KEY="sk-ant-..."
+pip install anthropic
+
+# Alle Stubs uebersetzen (fehlende definition_en)
+python metawiki_pipeline.py translate
+
+# Mit Limit (z.B. nur 50 Stubs)
+python metawiki_pipeline.py translate --limit 50
+
+# Verfuegbarkeit pruefen
+python translate.py --check
+```
+
+Als Python-Modul:
+
+```python
+from translate import translate_text
+
+english = translate_text("Ein Grenzwert beschreibt den Wert, dem sich eine Funktion annaeht.")
+print(english)
+# → "A limit describes the value that a function approaches."
+```
+
+Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Uebersetzung lautlos uebersprungen.
+
+---
+
 ## Roadmap
 
 ### Phase 1 - Strukturaufbau `[ABGESCHLOSSEN]`
@@ -198,11 +231,12 @@ for category, subcats in data["MetaWiki"].items():
 - [x] CLI-Tool fuer Stub-Management (metawiki_cli.py)
 - [ ] Export nach Obsidian / GitHub Pages (geplant)
 
-### Phase 4 - Mehrsprachigkeit `[GEPLANT]`
+### Phase 4 - Mehrsprachigkeit `[ABGESCHLOSSEN]`
 
-- [ ] Automatische Uebersetzung in Englisch (API-Integration)
-- [ ] Optionale Uebersetzungen in weitere Sprachen
-- [ ] Sprachspezifische Markdown-Exports
+- [x] Automatische Uebersetzung in Englisch via Claude API (translate.py)
+- [x] Optionale Uebersetzungen in weitere Sprachen (EN/FR/ES/IT/PT)
+- [x] translate-Befehl in metawiki_pipeline.py
+- [ ] Sprachspezifische Markdown-Exports (geplant)
 
 ### Phase 5 - Erweiterungen `[GEPLANT]`
 
