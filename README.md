@@ -213,8 +213,6 @@ Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Ue
 
 - [x] Alle Stubs in metawiki.json zusammengefuehrt (md_to_json.py)
 - [x] Bidirektionale Synchronisation JSON <-> Markdown (metawiki_pipeline.py)
-- [ ] JSON-Schema-Validierung (geplant)
-- [ ] Einheitliches Tag-System (geplant)
 
 ### Phase 3 - Automatisierung `[ABGESCHLOSSEN]`
 
@@ -222,17 +220,19 @@ Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Ue
 - [x] Markdown-Generator
 - [x] Ordnerstruktur-Generator
 - [x] CLI-Tool fuer Stub-Management (metawiki_cli.py)
-- [ ] Export nach Obsidian / GitHub Pages (geplant)
 
 ### Phase 4 - Mehrsprachigkeit `[ABGESCHLOSSEN]`
 
 - [x] Automatische Uebersetzung in Englisch via Claude API (translate.py)
 - [x] Optionale Uebersetzungen in weitere Sprachen (EN/FR/ES/IT/PT)
 - [x] translate-Befehl in metawiki_pipeline.py
-- [ ] Sprachspezifische Markdown-Exports (geplant)
 
 ### Phase 5 - Erweiterungen `[GEPLANT]`
 
+- [ ] JSON-Schema-Validierung
+- [ ] Einheitliches Tag-System
+- [ ] Export nach Obsidian / GitHub Pages
+- [ ] Sprachspezifische Markdown-Exports (DE/EN getrennt)
 - [ ] Embeddings-Generierung fuer Vektor-Suche
 - [ ] Such-API (REST)
 - [ ] Web-Interface (FastAPI + HTML)
