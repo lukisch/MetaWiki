@@ -116,9 +116,19 @@ class MarkdownParser:
         """Parst eine Markdown-Datei in einen WikiStub."""
         try:
             content = filepath.read_text(encoding="utf-8")
+        except FileNotFoundError:
+            print(f"  ⚠ Datei nicht gefunden: {filepath}")
+            return None
+        except (UnicodeDecodeError, OSError) as e:
+            print(f"  ⚠ Lesefehler bei {filepath}: {e}")
+            return None
+        try:
             return MarkdownParser.parse_content(content, str(filepath))
+        except (ValueError, SyntaxError) as e:
+            print(f"  ⚠ Parse-Fehler in {filepath}: {e}")
+            return None
         except Exception as e:
-            print(f"  ⚠ Fehler beim Lesen von {filepath}: {e}")
+            print(f"  ⚠ Unerwarteter Fehler beim Parsen von {filepath}: {e}")
             return None
 
     @staticmethod
@@ -530,7 +540,8 @@ def cmd_import(args):
 
     # Speichern
     if imported > 0:
-        json_handler.save()
+        if not json_handler.save():
+            print("  ✗ Speichern fehlgeschlagen!")
 
     print(f"\n{'=' * 50}")
     print(f"✓ {imported} Stubs importiert, {errors} Fehler")
@@ -637,7 +648,9 @@ def cmd_sync(args):
     print("\n1️⃣ Importiere neue Markdown-Dateien...")
 
     json_handler = JsonHandler()
-    json_handler.load()
+    if not json_handler.load():
+        print("  ✗ JSON-Datei konnte nicht geladen werden. Abbruch.")
+        return
     existing_titles = {s.title.lower() for s in json_handler.get_all_stubs()}
 
     new_stubs = 0
@@ -659,7 +672,8 @@ def cmd_sync(args):
                     print(f"  + {stub.title}")
 
     if new_stubs > 0:
-        json_handler.save()
+        if not json_handler.save():
+            print("  ✗ Speichern fehlgeschlagen!")
 
     print(f"\n   ✓ {new_stubs} neue Stubs importiert")
 
@@ -691,7 +705,9 @@ def cmd_translate(args):
     import time
 
     json_handler = JsonHandler()
-    json_handler.load()
+    if not json_handler.load():
+        print("  ✗ JSON-Datei konnte nicht geladen werden. Abbruch.")
+        return
     stubs = json_handler.get_all_stubs()
 
     to_translate = [s for s in stubs if not s.definition_en]
@@ -705,23 +721,27 @@ def cmd_translate(args):
 
     translated = 0
     errors = 0
+    delay = getattr(args, 'delay', 0.3)  # Konfigurierbare Verzögerung (Standard: 0.3s)
 
-    for stub in to_translate:
+    for i, stub in enumerate(to_translate):
         result = translate_text(stub.definition_de)
         if result:
             stub.definition_en = result
             json_handler.add_stub(stub)
             translated += 1
             print(f"  ✓ {stub.title}")
+            # Nur nach erfolgreichen API-Calls schlafen (Fehler verbrauchen kein Rate-Limit)
+            if delay > 0 and i < len(to_translate) - 1:
+                time.sleep(delay)
         else:
             errors += 1
             print(f"  ✗ {stub.title}")
 
-        if translated < len(to_translate):
-            time.sleep(0.3)
-
     if translated > 0:
-        json_handler.save()
+        if not json_handler.save():
+            print("  ✗ Speichern fehlgeschlagen! Uebersetzungen gehen verloren.")
+        else:
+            print(f"  ✓ Gespeichert")
 
     print(f"\n{'=' * 50}")
     print(f"✓ {translated} uebersetzt, {errors} Fehler")
@@ -733,7 +753,9 @@ def cmd_clean(args):
     print("=" * 50)
 
     json_handler = JsonHandler()
-    json_handler.load()
+    if not json_handler.load():
+        print("  ✗ JSON-Datei konnte nicht geladen werden. Abbruch.")
+        return
     stubs = json_handler.get_all_stubs()
 
     cleaned = 0
@@ -752,7 +774,8 @@ def cmd_clean(args):
             json_handler.add_stub(stub)
 
     if cleaned > 0:
-        json_handler.save()
+        if not json_handler.save():
+            print("  ✗ Speichern fehlgeschlagen!")
 
     print(f"\n✓ {cleaned} Einträge bereinigt")
 
