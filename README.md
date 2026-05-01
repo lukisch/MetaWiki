@@ -9,7 +9,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/github/explore/main/topics/knowledge/knowledge.png" alt="MetaWiki" width="120">
+  <img src="assets/metawiki_icon.png" alt="MetaWiki" width="120">
   <br>
   MetaWiki Framework
   <br>
@@ -148,7 +148,7 @@ Alle 630 Stubs sind bereits vollstaendig **zweisprachig (DE + EN)**. Fuer neue S
 
 ```bash
 # API-Key setzen und optionales Paket installieren
-export ANTHROPIC_API_KEY="sk-ant-..."
+export ANTHROPIC_API_KEY="<your-anthropic-api-key>"
 pip install anthropic
 
 # Alle Stubs uebersetzen (fehlende definition_en)
@@ -172,6 +172,30 @@ print(english)
 ```
 
 Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Uebersetzung lautlos uebersprungen.
+
+## Nutzung / Usage
+
+```bash
+# CLI-Hilfe
+python metawiki_cli.py --help
+
+# Statistiken anzeigen
+python metawiki_cli.py stats
+
+# Konsistenz pruefen
+python metawiki_cli.py check
+
+# JSON nach Markdown exportieren
+python metawiki_pipeline.py export --output --english
+```
+
+Unter Windows steht zusaetzlich `start.bat` als einfacher Einstieg fuer die CLI bereit. Exportierte Dateien landen in `output/`; dieser Ordner bleibt lokal und wird nicht versioniert.
+
+## Datenschutz / Privacy
+
+MetaWiki arbeitet standardmaessig lokal mit `metawiki.json` und den Markdown-Exporten in diesem Repository. Es gibt keine Telemetrie und keine automatische Netzwerkkommunikation.
+
+Nur der optionale Befehl `python metawiki_pipeline.py translate` kann externe API-Aufrufe ausloesen, wenn `ANTHROPIC_API_KEY` gesetzt ist und das optionale Paket `anthropic` installiert wurde.
 
 ## Roadmap
 
@@ -235,7 +259,7 @@ Ohne gesetzten `ANTHROPIC_API_KEY` oder ohne `pip install anthropic` wird die Ue
 | Projektagnostisch | Fuer jeden Anwendungsfall |
 
 <p align="center">
-  <sub>Built with brain and AI &nbsp;|&nbsp; Developed by <a href="https://github.com/lukisch">lukisch</a></sub>
+  <sub>Built with brain and AI &nbsp;|&nbsp; Maintained at <a href="https://github.com/file-bricks/MetaWiki">file-bricks/MetaWiki</a></sub>
 </p>
 
 ---
@@ -373,7 +397,7 @@ All 630 stubs are already fully **bilingual (DE + EN)**. For new stubs added lat
 
 ```bash
 # Set API key and install optional package
-export ANTHROPIC_API_KEY="sk-ant-..."
+export ANTHROPIC_API_KEY="<your-anthropic-api-key>"
 pip install anthropic
 
 # Translate all stubs (missing definition_en)
@@ -397,6 +421,30 @@ print(english)
 ```
 
 Without a set `ANTHROPIC_API_KEY` or without `pip install anthropic`, translation is silently skipped.
+
+### Usage
+
+```bash
+# CLI help
+python metawiki_cli.py --help
+
+# Show statistics
+python metawiki_cli.py stats
+
+# Check consistency
+python metawiki_cli.py check
+
+# Export JSON to Markdown
+python metawiki_pipeline.py export --output --english
+```
+
+On Windows, `start.bat` provides a simple CLI entry point. Exported files are written to `output/`; that folder stays local and is not versioned.
+
+### Privacy
+
+MetaWiki works locally by default with `metawiki.json` and the Markdown exports in this repository. It has no telemetry and no automatic network communication.
+
+Only the optional `python metawiki_pipeline.py translate` command can make external API calls when `ANTHROPIC_API_KEY` is set and the optional `anthropic` package is installed.
 
 ### Roadmap
 
@@ -460,16 +508,16 @@ Without a set `ANTHROPIC_API_KEY` or without `pip install anthropic`, translatio
 | Project-agnostic | For any use case |
 
 <p align="center">
-  <sub>Built with brain and AI &nbsp;|&nbsp; Developed by <a href="https://github.com/lukisch">lukisch</a></sub>
+  <sub>Built with brain and AI &nbsp;|&nbsp; Maintained at <a href="https://github.com/file-bricks/MetaWiki">file-bricks/MetaWiki</a></sub>
 </p>
 
 ---
 
 ## Haftung / Liability
 
-Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gelten die Haftungsausschlüsse aus GPL-3.0 / MIT / Apache-2.0 §§ 15–16 (je nach gewählter Lizenz).
+Dieses Projekt ist eine **unentgeltliche Open-Source-Schenkung** im Sinne der §§ 516 ff. BGB. Die Haftung des Urhebers ist gemäß **§ 521 BGB** auf **Vorsatz und grobe Fahrlässigkeit** beschränkt. Ergänzend gelten die Haftungsausschlüsse der MIT-Lizenz.
 
 Nutzung auf eigenes Risiko. Keine Wartungszusage, keine Verfügbarkeitsgarantie, keine Gewähr für Fehlerfreiheit oder Eignung für einen bestimmten Zweck.
 
-This project is an unpaid open-source donation. Liability is limited to intent and gross negligence (§ 521 German Civil Code). Use at your own risk. No warranty, no maintenance guarantee, no fitness-for-purpose assumed.
+This project is an unpaid open-source donation. Liability is limited to intent and gross negligence (§ 521 German Civil Code), with the MIT License disclaimers applying as well. Use at your own risk. No warranty, no maintenance guarantee, no fitness-for-purpose assumed.
 

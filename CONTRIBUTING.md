@@ -28,10 +28,11 @@ Vielen Dank fuer Ihr Interesse, zu diesem Projekt beizutragen!
 ### Erste Schritte
 
 ```bash
-git clone https://github.com/lukisch/MetaWiki.git
+git clone https://github.com/file-bricks/MetaWiki.git
 cd MetaWiki
-pip install -r requirements.txt
-python main.py
+python -m pip install -r requirements.txt
+python metawiki_cli.py stats
+python metawiki_pipeline.py validate
 ```
 
 ---
@@ -64,8 +65,9 @@ Thank you for your interest in contributing to this project!
 ### Getting Started
 
 ```bash
-git clone https://github.com/lukisch/MetaWiki.git
+git clone https://github.com/file-bricks/MetaWiki.git
 cd MetaWiki
-pip install -r requirements.txt
-python main.py
+python -m pip install -r requirements.txt
+python metawiki_cli.py stats
+python metawiki_pipeline.py validate
 ```

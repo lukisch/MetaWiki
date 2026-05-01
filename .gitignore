@@ -11,6 +11,11 @@ __pycache__/
 .eggs/
 dist/
 build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
 
 # ---- Virtuelle Umgebungen ----
 venv/
@@ -18,7 +23,7 @@ venv/
 env/
 .env/
 
-# ---- BACH Interne Steuerungsdateien (NIEMALS in Git!) ----
+# ---- Interne Steuerungsdateien (NIEMALS in Git!) ----
 AUFGABEN.txt
 TEST.txt
 TESTS.txt
@@ -33,6 +38,7 @@ _USER/
 credentials.json
 client_secret*.json
 token.json
+secrets.*
 *.pem
 *.key
 keyring/
@@ -44,6 +50,7 @@ releases/
 *.msix
 *.appx
 *.spec
+*.temp
 
 # ---- IDE & Editoren ----
 .claude/
@@ -73,3 +80,5 @@ _private/
 output/
 backups/
 *.bak
+*.tmp
+*-ASUS-GEI.md
