@@ -8,7 +8,7 @@ Uebersetzt deutsche Wissens-Stubs ins Englische via Claude API.
 
 Voraussetzungen:
     pip install anthropic
-    export ANTHROPIC_API_KEY="sk-ant-..."
+    export ANTHROPIC_API_KEY="<your-anthropic-api-key>"
 
 Nutzung als Modul:
     from translate import translate_text
